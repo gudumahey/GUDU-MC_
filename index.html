@@ -1,0 +1,583 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GUDU MC — LifeSteal Minecraft Server</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 50% 20%, rgba(0, 200, 255, 0.14), transparent 35%),
+        linear-gradient(135deg, #02050b, #06101d 50%, #010308);
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background Glow */
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #00d9ff;
+    filter: blur(180px);
+    opacity: 0.08;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+/* NAVBAR */
+
+nav {
+    width: 100%;
+    padding: 22px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff;
+}
+
+.logo span {
+    color: #00d9ff;
+}
+
+.nav-discord {
+    text-decoration: none;
+    color: white;
+    border: 1px solid rgba(0,217,255,.4);
+    padding: 11px 20px;
+    border-radius: 10px;
+    background: rgba(0,217,255,.07);
+    transition: .3s;
+}
+
+.nav-discord:hover {
+    background: #00d9ff;
+    color: #001018;
+    box-shadow: 0 0 25px rgba(0,217,255,.5);
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 20px 70px;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 900px;
+    z-index: 2;
+}
+
+.badge {
+    display: inline-block;
+    padding: 9px 18px;
+    border: 1px solid rgba(0,217,255,.35);
+    background: rgba(0,217,255,.06);
+    border-radius: 100px;
+    color: #5ce7ff;
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 30px rgba(0,217,255,.08);
+}
+
+h1 {
+    font-size: clamp(70px, 13vw, 150px);
+    line-height: .85;
+    font-weight: 1000;
+    letter-spacing: -5px;
+    background: linear-gradient(180deg, #ffffff 10%, #63eaff 45%, #007cff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 35px rgba(0,217,255,.25));
+}
+
+.mc {
+    font-size: 30px;
+    letter-spacing: 15px;
+    margin-top: 18px;
+    color: #dbefff;
+}
+
+.hero p {
+    max-width: 680px;
+    margin: 28px auto;
+    color: #9fb1c4;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 15px 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: .3s;
+    cursor: pointer;
+    border: none;
+    font-size: 15px;
+}
+
+.primary {
+    background: linear-gradient(135deg, #00eaff, #007cff);
+    color: #001018;
+    box-shadow: 0 0 30px rgba(0,217,255,.25);
+}
+
+.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 45px rgba(0,217,255,.55);
+}
+
+.secondary {
+    color: white;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.04);
+}
+
+.secondary:hover {
+    background: rgba(255,255,255,.1);
+    transform: translateY(-3px);
+}
+
+/* SERVER CARD */
+
+.server-card {
+    margin: 45px auto 0;
+    max-width: 650px;
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid rgba(0,217,255,.18);
+    background: rgba(255,255,255,.035);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+
+.server-status {
+    color: #53ffae;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.ip {
+    font-family: monospace;
+    font-size: 19px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    word-break: break-all;
+}
+
+.copy-btn {
+    margin-top: 14px;
+    padding: 9px 17px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,217,255,.25);
+    background: rgba(0,217,255,.08);
+    color: #5ce7ff;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    background: #00d9ff;
+    color: #001018;
+}
+
+/* SECTION */
+
+section {
+    padding: 100px 7%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #8193a8;
+    margin-bottom: 50px;
+}
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.055),
+        rgba(255,255,255,.015)
+    );
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(0,217,255,.35);
+    box-shadow: 0 20px 50px rgba(0,217,255,.08);
+}
+
+.icon {
+    font-size: 35px;
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 21px;
+}
+
+.card p {
+    color: #8fa1b5;
+    line-height: 1.7;
+}
+
+/* ABOUT */
+
+.about {
+    text-align: center;
+    max-width: 800px;
+}
+
+.about p {
+    color: #9aabba;
+    line-height: 1.9;
+    font-size: 17px;
+}
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding: 35px 20px;
+    text-align: center;
+    color: #637589;
+}
+
+footer strong {
+    color: #5ce7ff;
+}
+
+/* PARTICLES */
+
+.particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: #00d9ff;
+    border-radius: 50%;
+    opacity: .4;
+    animation: float 8s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(100vh);
+    }
+    to {
+        transform: translateY(-10vh);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width: 800px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        padding: 18px 5%;
+    }
+
+    .nav-discord {
+        padding: 9px 13px;
+        font-size: 13px;
+    }
+
+    h1 {
+        letter-spacing: -3px;
+    }
+
+    .mc {
+        font-size: 20px;
+        letter-spacing: 9px;
+    }
+
+    section {
+        padding: 75px 6%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">GUDU<span>MC</span></div>
+
+    <a
+        class="nav-discord"
+        href="https://discord.gg/Q6EFJJ9aj"
+        target="_blank">
+        💬 Discord
+    </a>
+</nav>
+
+<!-- HERO -->
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="badge">
+            ⚡ OFFICIAL GUDU MC NETWORK
+        </div>
+
+        <h1>GUDU</h1>
+
+        <div class="mc">M C</div>
+
+        <p>
+            Enter a new era of Minecraft LifeSteal.
+            Build your empire, fight for survival, protect your hearts
+            and create your own legacy in the world of <strong>GUDU MC</strong>.
+        </p>
+
+        <div class="buttons">
+
+            <a
+                class="btn primary"
+                href="https://discord.gg/Q6EFJJ9aj"
+                target="_blank">
+                💬 JOIN DISCORD
+            </a>
+
+            <button
+                class="btn secondary"
+                onclick="copyIP()">
+                📋 COPY SERVER IP
+            </button>
+
+        </div>
+
+        <div class="server-card">
+
+            <div class="server-status">
+                ● SERVER IP
+            </div>
+
+            <div class="ip">
+                gudumc.play.minekube.net
+            </div>
+
+            <button class="copy-btn" onclick="copyIP()">
+                Copy IP
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- FEATURES -->
+
+<section>
+
+    <h2 class="section-title">
+        ⚔️ ENTER THE LIFESTEAL
+    </h2>
+
+    <p class="section-subtitle">
+        Survival isn't guaranteed. Your choices matter.
+    </p>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="icon">❤️</div>
+            <h3>LifeSteal Survival</h3>
+            <p>
+                Fight, survive and protect your hearts.
+                Every battle can change your destiny.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">⚔️</div>
+            <h3>Epic PvP</h3>
+            <p>
+                Challenge rivals, build your reputation
+                and become a force on the server.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="icon">👑</div>
+            <h3>Build Your Legacy</h3>
+            <p>
+                Create your base, form alliances and
+                build an empire worthy of the GUDU name.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section>
+
+    <div class="about">
+
+        <h2 class="section-title">
+            👑 WHAT IS GUDU MC?
+        </h2>
+
+        <p>
+            <strong>GUDU MC</strong> is a Minecraft LifeSteal community
+            built for players who want intense PvP, survival,
+            competition and an active community.
+            <br><br>
+            Whether you're here to dominate the battlefield,
+            build an unstoppable base or simply enjoy Minecraft
+            with friends — your adventure starts here.
+            <br><br>
+            <strong>Join the community. Enter the realm. Make your mark.</strong>
+        </p>
+
+        <div class="buttons">
+
+            <a
+                class="btn primary"
+                href="https://discord.gg/Q6EFJJ9aj"
+                target="_blank">
+                👑 JOIN GUDU MC
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 <strong>GUDU MC</strong> — LifeSteal Minecraft Server
+    </p>
+
+    <p style="margin-top:8px;">
+        Build • Fight • Survive • Dominate
+    </p>
+
+</footer>
+
+
+<script>
+
+function copyIP() {
+
+    const ip = "gudumc.play.minekube.net";
+
+    navigator.clipboard.writeText(ip);
+
+    const buttons = document.querySelectorAll(".copy-btn");
+
+    buttons.forEach(button => {
+        button.innerText = "✓ IP COPIED!";
+    });
+
+    setTimeout(() => {
+
+        buttons.forEach(button => {
+            button.innerText = "Copy IP";
+        });
+
+    }, 2000);
+}
+
+
+/* Create floating particles */
+
+for(let i = 0; i < 35; i++) {
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    particle.style.left = Math.random() * 100 + "vw";
+
+    particle.style.animationDuration =
+        (5 + Math.random() * 8) + "s";
+
+    particle.style.animationDelay =
+        Math.random() * 8 + "s";
+
+    document.body.appendChild(particle);
+}
+
+</script>
+
+</body>
+</html>
+```
