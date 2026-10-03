@@ -1,13 +1,14 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>GUDU MC — LifeSteal Network</title>
+<title>GUDU MC | LifeSteal</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap');
 
 *{
     margin:0;
@@ -15,539 +16,929 @@
     box-sizing:border-box;
 }
 
-:root{
-    --cyan:#00eaff;
-    --blue:#147cff;
-    --gold:#ffd66b;
-    --bg:#02050c;
-    --text:#f4fbff;
-    --muted:#8294aa;
-}
-
 html{
     scroll-behavior:smooth;
 }
 
 body{
-    background:
-        radial-gradient(circle at 50% 10%,rgba(0,220,255,.12),transparent 28%),
-        radial-gradient(circle at 10% 70%,rgba(20,124,255,.08),transparent 25%),
-        var(--bg);
-    color:var(--text);
-    font-family:Inter,sans-serif;
+    background:#01040a;
+    color:#fff;
+    font-family:Inter,Arial,sans-serif;
     overflow-x:hidden;
 }
 
-/* =========================
-   BACKGROUND
-========================= */
+/* =====================================================
+   CUSTOM ANIMATED BACKGROUND
+===================================================== */
 
-.grid{
+.background{
     position:fixed;
     inset:0;
-    z-index:-5;
-    background-image:
-        linear-gradient(rgba(0,234,255,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,234,255,.035) 1px,transparent 1px);
-    background-size:55px 55px;
-    mask-image:linear-gradient(to bottom,black,transparent 90%);
+    overflow:hidden;
+    z-index:-20;
+    background:
+        radial-gradient(
+            ellipse at 50% 75%,
+            rgba(0,150,255,.13),
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(0,238,255,.13),
+            transparent 35%
+        ),
+        #01040a;
 }
 
-.glow{
-    position:fixed;
-    width:500px;
+/* animated aurora */
+
+.aurora{
+    position:absolute;
+    width:900px;
     height:500px;
+    left:50%;
+    top:35%;
+    transform:translate(-50%,-50%);
+    background:
+        conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(0,238,255,.12),
+            transparent 25%,
+            rgba(0,92,255,.1),
+            transparent 55%
+        );
+    filter:blur(80px);
+    opacity:.7;
+    animation:auroraMove 15s linear infinite;
+}
+
+@keyframes auroraMove{
+    0%{
+        transform:translate(-50%,-50%) rotate(0deg) scale(1);
+    }
+    50%{
+        transform:translate(-50%,-50%) rotate(180deg) scale(1.25);
+    }
+    100%{
+        transform:translate(-50%,-50%) rotate(360deg) scale(1);
+    }
+}
+
+/* huge glow */
+
+.energy{
+    position:absolute;
+    width:600px;
+    height:600px;
+    left:50%;
+    top:52%;
+    transform:translate(-50%,-50%);
     border-radius:50%;
-    background:var(--cyan);
+    background:#00d9ff;
     filter:blur(180px);
-    opacity:.06;
-    pointer-events:none;
+    opacity:.045;
+    animation:energyPulse 5s ease-in-out infinite;
 }
 
-.glow.one{
-    top:-300px;
-    left:20%;
+@keyframes energyPulse{
+    50%{
+        opacity:.1;
+        transform:translate(-50%,-50%) scale(1.25);
+    }
 }
 
-.glow.two{
-    right:-300px;
-    top:40%;
-    background:var(--blue);
-}
+/* stars */
 
-/* floating particles */
-
-.particle{
-    position:fixed;
-    width:3px;
-    height:3px;
-    background:var(--cyan);
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
     border-radius:50%;
+    background:#bafaff;
+    box-shadow:0 0 8px #00eaff;
+    animation:starFloat linear infinite;
+}
+
+@keyframes starFloat{
+    0%{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+
+    15%{
+        opacity:.7;
+    }
+
+    85%{
+        opacity:.7;
+    }
+
+    100%{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
+
+/* =====================================================
+   ANIMATED TECH GRID
+===================================================== */
+
+.grid-floor{
+    position:absolute;
+    width:180%;
+    height:65%;
+    left:-40%;
+    bottom:-25%;
+    transform:perspective(500px) rotateX(60deg);
+    transform-origin:center top;
+
+    background-image:
+        linear-gradient(
+            rgba(0,229,255,.16) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,229,255,.16) 1px,
+            transparent 1px
+        );
+
+    background-size:70px 70px;
+
+    mask-image:linear-gradient(
+        to bottom,
+        transparent,
+        black 30%,
+        black 75%,
+        transparent
+    );
+
+    animation:gridMove 4s linear infinite;
+}
+
+@keyframes gridMove{
+    to{
+        background-position:0 70px,70px 0;
+    }
+}
+
+/* horizon glow */
+
+.horizon{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:22%;
+    height:2px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,238,255,.6),
+        rgba(255,255,255,.8),
+        rgba(0,238,255,.6),
+        transparent
+    );
+
+    box-shadow:
+        0 0 30px #00eaff,
+        0 0 90px rgba(0,150,255,.6);
+
     opacity:.5;
-    pointer-events:none;
-    z-index:-1;
-    animation:float linear infinite;
 }
 
-@keyframes float{
-    from{transform:translateY(105vh);opacity:0}
-    15%{opacity:.5}
-    85%{opacity:.5}
-    to{transform:translateY(-10vh);opacity:0}
+/* =====================================================
+   VOXEL BLOCKS
+===================================================== */
+
+.voxel{
+    position:absolute;
+    width:52px;
+    height:52px;
+    transform-style:preserve-3d;
+    opacity:.16;
+    animation:voxelFloat ease-in-out infinite;
 }
 
-/* =========================
-   NAV
-========================= */
+.voxel .front{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(135deg,#0c3344,#06121c);
+    border:1px solid rgba(0,238,255,.55);
+}
+
+.voxel .top{
+    position:absolute;
+    width:52px;
+    height:52px;
+    top:-26px;
+    left:0;
+    transform:rotateX(90deg);
+    transform-origin:bottom;
+    background:#0b4657;
+    border:1px solid rgba(0,238,255,.35);
+}
+
+.voxel .side{
+    position:absolute;
+    width:52px;
+    height:52px;
+    right:-26px;
+    top:0;
+    transform:rotateY(90deg);
+    transform-origin:left;
+    background:#041923;
+    border:1px solid rgba(0,170,255,.35);
+}
+
+@keyframes voxelFloat{
+    0%,100%{
+        transform:translateY(0) rotateX(18deg) rotateY(25deg);
+    }
+
+    50%{
+        transform:translateY(-35px) rotateX(45deg) rotateY(70deg);
+    }
+}
+
+/* =====================================================
+   NAVBAR
+===================================================== */
 
 nav{
     position:fixed;
     top:0;
     left:0;
     width:100%;
-    height:82px;
+    height:78px;
+
+    padding:0 7%;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 7%;
+
     z-index:100;
-    background:rgba(2,5,12,.55);
+
+    background:rgba(1,4,10,.48);
     backdrop-filter:blur(18px);
+
     border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .logo{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:11px;
+
     font-family:Orbitron;
     font-weight:900;
-    letter-spacing:3px;
-    font-size:20px;
+    letter-spacing:2px;
 }
 
-.logo-mark{
+.logo-box{
     width:38px;
     height:38px;
+
     display:grid;
     place-items:center;
-    border:1px solid rgba(0,234,255,.5);
+
     border-radius:10px;
-    background:linear-gradient(145deg,rgba(0,234,255,.15),rgba(20,124,255,.04));
-    box-shadow:0 0 25px rgba(0,234,255,.12);
+
+    border:1px solid rgba(0,234,255,.45);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,234,255,.16),
+            rgba(0,80,255,.04)
+        );
+
+    box-shadow:
+        inset 0 0 20px rgba(0,234,255,.05),
+        0 0 20px rgba(0,234,255,.08);
 }
 
 .logo span{
-    color:var(--cyan);
+    color:#00eaff;
 }
 
-.navlinks{
+.nav-links{
     display:flex;
     gap:30px;
 }
 
-.navlinks a{
-    color:#8fa1b6;
+.nav-links a{
+    color:#7f91a7;
     text-decoration:none;
-    font-size:13px;
-    font-weight:600;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:1px;
     transition:.25s;
 }
 
-.navlinks a:hover{
-    color:white;
+.nav-links a:hover{
+    color:#fff;
 }
 
-.nav-discord{
-    padding:11px 18px;
-    border:1px solid rgba(0,234,255,.3);
-    border-radius:10px;
-    color:white;
+.discord-btn{
     text-decoration:none;
-    font-size:13px;
-    font-weight:700;
-    background:rgba(0,234,255,.06);
+    color:white;
+
+    padding:10px 17px;
+
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:9px;
+
+    background:rgba(0,234,255,.05);
+
+    font-size:12px;
+    font-weight:800;
+
     transition:.3s;
 }
 
-.nav-discord:hover{
-    background:var(--cyan);
-    color:#001016;
-    box-shadow:0 0 30px rgba(0,234,255,.35);
+.discord-btn:hover{
+    color:#001015;
+    background:#00eaff;
+    box-shadow:0 0 30px rgba(0,234,255,.4);
 }
 
-/* =========================
+/* =====================================================
    HERO
-========================= */
+===================================================== */
 
 .hero{
     min-height:100vh;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    position:relative;
-    padding:130px 7% 80px;
+
+    padding:
+        130px 7%
+        80px;
+
     text-align:center;
+
+    position:relative;
 }
 
 .hero-content{
+    width:100%;
     max-width:1000px;
 }
 
-.status{
+/* badge */
+
+.badge{
     display:inline-flex;
     align-items:center;
     gap:9px;
+
     padding:8px 15px;
-    border:1px solid rgba(0,234,255,.2);
-    background:rgba(0,234,255,.045);
+
     border-radius:100px;
-    color:#80f3ff;
-    font-size:11px;
-    font-weight:700;
+
+    border:1px solid rgba(0,234,255,.22);
+
+    background:rgba(0,234,255,.045);
+
+    color:#82f4ff;
+
+    font-size:10px;
+    font-weight:800;
+
     letter-spacing:2px;
-    margin-bottom:30px;
+
+    box-shadow:
+        0 0 25px rgba(0,234,255,.05);
 }
 
-.status-dot{
-    width:7px;
-    height:7px;
-    background:#48ffae;
+.badge-dot{
+    width:6px;
+    height:6px;
+
     border-radius:50%;
-    box-shadow:0 0 12px #48ffae;
+
+    background:#4dffac;
+
+    box-shadow:0 0 12px #4dffac;
 }
+
+/* title */
 
 .title{
+    margin-top:35px;
+
     font-family:Orbitron;
+
     font-size:clamp(70px,14vw,170px);
+
     font-weight:900;
-    line-height:.8;
-    letter-spacing:-8px;
-    background:linear-gradient(
-        180deg,
-        #fff 0%,
-        #a9f7ff 35%,
-        #00d9ff 65%,
-        #0068e8 100%
-    );
+
+    line-height:.78;
+
+    letter-spacing:-9px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #b9faff 30%,
+            #00eaff 60%,
+            #0069df 100%
+        );
+
     -webkit-background-clip:text;
+    background-clip:text;
+
     color:transparent;
+
     filter:
-        drop-shadow(0 0 20px rgba(0,234,255,.2))
-        drop-shadow(0 25px 30px rgba(0,0,0,.7));
+        drop-shadow(0 0 25px rgba(0,234,255,.22))
+        drop-shadow(0 30px 35px rgba(0,0,0,.8));
 }
 
 .mc{
+    margin-top:27px;
+
     font-family:Orbitron;
-    margin-top:28px;
-    font-size:19px;
-    font-weight:700;
+
+    color:#ffd66b;
+
+    font-size:18px;
+
+    font-weight:800;
+
     letter-spacing:14px;
-    color:var(--gold);
-    text-shadow:0 0 20px rgba(255,214,107,.25);
+
+    text-shadow:
+        0 0 18px rgba(255,214,107,.25);
 }
 
-.hero-description{
-    max-width:650px;
-    margin:35px auto 0;
-    color:#8ea1b6;
-    line-height:1.9;
-    font-size:16px;
-}
+/* heart */
 
-.hero-description strong{
-    color:#dffbff;
-}
+.life-core{
+    width:170px;
+    height:170px;
 
-/* CORE */
+    margin:48px auto 10px;
 
-.core{
-    width:180px;
-    height:180px;
-    margin:55px auto 20px;
     position:relative;
+
     display:grid;
     place-items:center;
 }
 
-.core-ring{
+.ring{
     position:absolute;
     inset:0;
-    border:1px solid rgba(0,234,255,.25);
+
     border-radius:50%;
-    animation:spin 12s linear infinite;
+
+    border:
+        1px solid
+        rgba(0,234,255,.3);
+
+    box-shadow:
+        0 0 35px rgba(0,234,255,.08);
+
+    animation:spin 10s linear infinite;
 }
 
-.core-ring:before,
-.core-ring:after{
+.ring:before{
     content:"";
+
     position:absolute;
+
     width:8px;
     height:8px;
-    background:var(--cyan);
-    box-shadow:0 0 18px var(--cyan);
+
     border-radius:50%;
-}
 
-.core-ring:before{
-    top:0;
+    background:#00eaff;
+
+    box-shadow:0 0 15px #00eaff;
+
     left:50%;
+    top:-4px;
 }
 
-.core-ring:after{
-    bottom:12px;
-    right:4px;
-}
-
-.core-ring.two{
+.ring.gold{
     inset:18px;
-    border-color:rgba(255,214,107,.25);
-    animation:spinReverse 8s linear infinite;
+
+    border-color:
+        rgba(255,214,107,.3);
+
+    animation:
+        spinReverse 7s linear infinite;
 }
 
 .heart{
-    font-size:65px;
-    filter:drop-shadow(0 0 25px rgba(255,40,80,.5));
-    animation:pulse 2s ease-in-out infinite;
+    font-size:60px;
+
+    filter:
+        drop-shadow(
+            0 0 25px
+            rgba(255,30,80,.5)
+        );
+
+    animation:
+        heartBeat 1.8s ease-in-out infinite;
 }
 
 @keyframes spin{
-    to{transform:rotate(360deg)}
+    to{
+        transform:rotate(360deg);
+    }
 }
 
 @keyframes spinReverse{
-    to{transform:rotate(-360deg)}
+    to{
+        transform:rotate(-360deg);
+    }
 }
 
-@keyframes pulse{
-    50%{transform:scale(1.12)}
+@keyframes heartBeat{
+    50%{
+        transform:scale(1.13);
+    }
 }
 
-/* BUTTONS */
+/* description */
+
+.description{
+    max-width:650px;
+
+    margin:30px auto 0;
+
+    color:#8799ad;
+
+    line-height:1.9;
+
+    font-size:15px;
+}
+
+.description strong{
+    color:#e4fbff;
+}
+
+/* buttons */
 
 .actions{
     display:flex;
     justify-content:center;
-    gap:14px;
     flex-wrap:wrap;
-    margin-top:30px;
+
+    gap:13px;
+
+    margin-top:28px;
 }
 
 .btn{
-    padding:15px 25px;
-    border-radius:12px;
+    padding:14px 22px;
+
+    border-radius:11px;
+
     text-decoration:none;
-    font-size:13px;
-    font-weight:800;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    letter-spacing:.5px;
+
     transition:.3s;
+
     cursor:pointer;
 }
 
 .primary{
-    color:#001018;
-    background:linear-gradient(135deg,#5cf5ff,#007cff);
-    box-shadow:0 0 30px rgba(0,234,255,.2);
+    color:#001116;
+
+    background:
+        linear-gradient(
+            135deg,
+            #63f5ff,
+            #007cff
+        );
+
+    box-shadow:
+        0 0 25px
+        rgba(0,234,255,.18);
 }
 
 .primary:hover{
     transform:translateY(-4px);
-    box-shadow:0 0 45px rgba(0,234,255,.45);
+
+    box-shadow:
+        0 0 45px
+        rgba(0,234,255,.5);
 }
 
 .secondary{
     color:white;
-    border:1px solid rgba(255,255,255,.12);
-    background:rgba(255,255,255,.035);
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 }
 
 .secondary:hover{
     transform:translateY(-4px);
-    border-color:rgba(0,234,255,.3);
+
+    border-color:
+        rgba(0,234,255,.35);
 }
 
-/* =========================
-   SERVER PANEL
-========================= */
+/* server panel */
 
 .server-panel{
-    max-width:850px;
-    margin:35px auto 0;
+    max-width:780px;
+
+    margin:30px auto 0;
+
     display:grid;
+
     grid-template-columns:1fr auto;
+
     align-items:center;
-    gap:20px;
-    padding:20px 22px;
-    border:1px solid rgba(255,255,255,.08);
-    background:linear-gradient(
-        120deg,
-        rgba(255,255,255,.06),
-        rgba(255,255,255,.015)
-    );
-    border-radius:16px;
-    backdrop-filter:blur(20px);
+
+    gap:18px;
+
     text-align:left;
+
+    padding:18px 20px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.012)
+        );
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.3);
 }
 
 .server-label{
-    color:#63768b;
-    font-size:10px;
-    font-weight:800;
+    color:#607388;
+
+    font-size:9px;
+
+    font-weight:900;
+
     letter-spacing:2px;
-    margin-bottom:8px;
+
+    margin-bottom:7px;
 }
 
 .server-ip{
+    color:#dffaff;
+
     font-family:monospace;
-    font-size:16px;
-    color:#dffbff;
+
+    font-size:15px;
 }
 
 .copy{
-    border:1px solid rgba(0,234,255,.25);
-    background:rgba(0,234,255,.07);
-    color:var(--cyan);
-    padding:11px 17px;
-    border-radius:9px;
+    padding:10px 15px;
+
+    border-radius:8px;
+
+    border:
+        1px solid
+        rgba(0,234,255,.25);
+
+    color:#00eaff;
+
+    background:
+        rgba(0,234,255,.06);
+
     cursor:pointer;
-    font-weight:700;
-}
 
-.copy:hover{
-    background:var(--cyan);
-    color:#001018;
-}
-
-/* =========================
-   SECTIONS
-========================= */
-
-section{
-    max-width:1150px;
-    margin:auto;
-    padding:110px 7%;
-}
-
-.heading{
-    text-align:center;
-    margin-bottom:55px;
-}
-
-.heading small{
-    color:var(--cyan);
-    font-size:11px;
-    letter-spacing:3px;
     font-weight:800;
 }
 
-.heading h2{
-    margin-top:13px;
+.copy:hover{
+    background:#00eaff;
+    color:#001015;
+}
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+section{
+    max-width:1150px;
+
+    margin:auto;
+
+    padding:
+        110px 7%;
+}
+
+.section-heading{
+    text-align:center;
+
+    margin-bottom:50px;
+}
+
+.section-heading small{
+    color:#00eaff;
+
+    font-size:10px;
+
+    letter-spacing:3px;
+
+    font-weight:900;
+}
+
+.section-heading h2{
+    margin-top:12px;
+
     font-family:Orbitron;
-    font-size:clamp(30px,5vw,50px);
+
+    font-size:
+        clamp(30px,5vw,48px);
 }
 
-.heading p{
-    color:#73869b;
-    margin-top:15px;
+.section-heading p{
+    margin-top:13px;
+
+    color:#718398;
 }
 
-/* CARDS */
+/* cards */
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:18px;
 }
 
 .card{
     position:relative;
-    padding:32px;
-    min-height:230px;
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:20px;
-    background:
-        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+
+    min-height:225px;
+
+    padding:30px;
+
     overflow:hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.012)
+        );
+
     transition:.35s;
 }
 
-.card:before{
+.card:after{
     content:"";
+
     position:absolute;
-    width:120px;
-    height:120px;
-    right:-60px;
-    top:-60px;
-    background:var(--cyan);
-    filter:blur(70px);
-    opacity:.08;
+
+    width:140px;
+    height:140px;
+
+    right:-70px;
+    top:-70px;
+
+    background:#00eaff;
+
+    filter:blur(75px);
+
+    opacity:.07;
 }
 
 .card:hover{
-    transform:translateY(-8px);
-    border-color:rgba(0,234,255,.25);
-    box-shadow:0 25px 60px rgba(0,0,0,.3);
+    transform:
+        translateY(-8px)
+        scale(1.01);
+
+    border-color:
+        rgba(0,234,255,.25);
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,.35);
 }
 
-.card-icon{
+.icon{
     font-size:32px;
-    margin-bottom:25px;
+
+    margin-bottom:22px;
 }
 
 .card h3{
     font-family:Orbitron;
-    font-size:17px;
+
+    font-size:16px;
+
     margin-bottom:13px;
 }
 
 .card p{
-    color:#7f91a5;
-    line-height:1.7;
-    font-size:14px;
+    color:#7e91a6;
+
+    font-size:13px;
+
+    line-height:1.8;
 }
 
-/* =========================
+/* =====================================================
    ABOUT
-========================= */
+===================================================== */
 
 .about-box{
-    padding:50px;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:24px;
-    background:
-        radial-gradient(circle at 50% 0%,rgba(0,234,255,.08),transparent 45%),
-        rgba(255,255,255,.025);
+    padding:55px 35px;
+
     text-align:center;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:22px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(0,234,255,.08),
+            transparent 50%
+        ),
+        rgba(255,255,255,.02);
 }
 
 .about-box p{
     max-width:750px;
+
     margin:auto;
-    color:#91a2b6;
+
+    color:#8799ad;
+
+    font-size:14px;
+
     line-height:2;
-    font-size:15px;
 }
 
 .about-box strong{
-    color:white;
+    color:#fff;
 }
 
-/* =========================
-   STATS
-========================= */
+/* stats */
 
 .stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    border:1px solid rgba(255,255,255,.07);
-    border-radius:18px;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:17px;
+
     overflow:hidden;
-    background:rgba(255,255,255,.025);
+
+    background:
+        rgba(255,255,255,.02);
 }
 
 .stat{
     padding:30px;
+
     text-align:center;
-    border-right:1px solid rgba(255,255,255,.07);
+
+    border-right:
+        1px solid
+        rgba(255,255,255,.07);
 }
 
 .stat:last-child{
@@ -556,36 +947,49 @@ section{
 
 .stat h3{
     font-family:Orbitron;
+
+    color:#00eaff;
+
     font-size:28px;
-    color:var(--cyan);
 }
 
 .stat p{
+    color:#62758a;
+
     margin-top:8px;
-    color:#718399;
-    font-size:11px;
+
+    font-size:9px;
+
+    font-weight:800;
+
     letter-spacing:2px;
 }
 
-/* =========================
+/* =====================================================
    FOOTER
-========================= */
+===================================================== */
 
 footer{
     padding:45px 20px;
+
     text-align:center;
-    border-top:1px solid rgba(255,255,255,.06);
-    color:#52657a;
-    font-size:12px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.06);
+
+    color:#52667c;
+
+    font-size:11px;
 }
 
 footer strong{
-    color:#8fefff;
+    color:#8df5ff;
 }
 
-/* =========================
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media(max-width:800px){
 
@@ -593,7 +997,7 @@ footer strong{
         padding:0 5%;
     }
 
-    .navlinks{
+    .nav-links{
         display:none;
     }
 
@@ -611,7 +1015,10 @@ footer strong{
 
     .stat{
         border-right:0;
-        border-bottom:1px solid rgba(255,255,255,.07);
+
+        border-bottom:
+            1px solid
+            rgba(255,255,255,.07);
     }
 
     .stat:last-child{
@@ -620,11 +1027,17 @@ footer strong{
 
     .server-panel{
         grid-template-columns:1fr;
+
         text-align:center;
     }
 
     .about-box{
-        padding:30px 20px;
+        padding:35px 20px;
+    }
+
+    .grid-floor{
+        width:300%;
+        left:-100%;
     }
 }
 </style>
@@ -632,183 +1045,327 @@ footer strong{
 
 <body>
 
-<div class="grid"></div>
-<div class="glow one"></div>
-<div class="glow two"></div>
+<!-- =====================================================
+     ANIMATED BACKGROUND
+===================================================== -->
+
+<div class="background">
+
+    <div class="aurora"></div>
+
+    <div class="energy"></div>
+
+    <div class="grid-floor"></div>
+
+    <div class="horizon"></div>
+
+    <!-- Floating voxel blocks -->
+
+    <div class="voxel"
+         style="left:8%;top:28%;animation-duration:7s;">
+        <div class="front"></div>
+        <div class="top"></div>
+        <div class="side"></div>
+    </div>
+
+    <div class="voxel"
+         style="right:12%;top:32%;transform:scale(.7);animation-duration:9s;">
+        <div class="front"></div>
+        <div class="top"></div>
+        <div class="side"></div>
+    </div>
+
+    <div class="voxel"
+         style="left:18%;bottom:18%;transform:scale(.55);animation-duration:8s;">
+        <div class="front"></div>
+        <div class="top"></div>
+        <div class="side"></div>
+    </div>
+
+    <div class="voxel"
+         style="right:20%;bottom:25%;transform:scale(.45);animation-duration:10s;">
+        <div class="front"></div>
+        <div class="top"></div>
+        <div class="side"></div>
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
 <nav>
 
     <div class="logo">
-        <div class="logo-mark">G</div>
+
+        <div class="logo-box">G</div>
+
         GUDU<span>MC</span>
+
     </div>
 
-    <div class="navlinks">
+    <div class="nav-links">
+
         <a href="#features">FEATURES</a>
+
         <a href="#about">ABOUT</a>
+
         <a href="#play">PLAY</a>
+
     </div>
 
     <a
-        class="nav-discord"
+        class="discord-btn"
         href="https://discord.gg/Q6EFJJ9aj"
         target="_blank">
+
         💬 DISCORD
+
     </a>
 
 </nav>
 
 
-<!-- HERO -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <header class="hero">
 
-    <div class="hero-content">
+<div class="hero-content">
 
-        <div class="status">
-            <span class="status-dot"></span>
-            LIFESTEAL NETWORK • ONLINE
-        </div>
+    <div class="badge">
 
-        <div class="title">GUDU</div>
+        <span class="badge-dot"></span>
 
-        <div class="mc">M C</div>
+        GUDU MC • LIFESTEAL NETWORK
 
-        <div class="core">
-            <div class="core-ring"></div>
-            <div class="core-ring two"></div>
-            <div class="heart">❤️</div>
-        </div>
+    </div>
 
-        <p class="hero-description">
-            <strong>Survival has a price.</strong><br>
-            Enter the world of GUDU MC — an intense LifeSteal
-            experience where every heart matters, every fight
-            has consequences and every player can build their legacy.
-        </p>
 
-        <div class="actions">
+    <div class="title">
+        GUDU
+    </div>
 
-            <a
-                class="btn primary"
-                href="https://discord.gg/Q6EFJJ9aj"
-                target="_blank">
-                👑 JOIN THE COMMUNITY
-            </a>
 
-            <a
-                class="btn secondary"
-                href="#play">
-                ⚔️ PLAY GUDU MC
-            </a>
+    <div class="mc">
+        M C
+    </div>
 
-        </div>
 
-        <div class="server-panel" id="play">
+    <div class="life-core">
 
-            <div>
-                <div class="server-label">
-                    MINECRAFT SERVER IP
-                </div>
+        <div class="ring"></div>
 
-                <div class="server-ip">
-                    gudumc.play.minekube.net
-                </div>
-            </div>
+        <div class="ring gold"></div>
 
-            <button class="copy" onclick="copyIP()">
-                📋 COPY IP
-            </button>
-
+        <div class="heart">
+            ❤️
         </div>
 
     </div>
+
+
+    <p class="description">
+
+        <strong>YOUR HEARTS. YOUR CHOICE. YOUR LEGACY.</strong>
+
+        <br><br>
+
+        Welcome to <strong>GUDU MC</strong> —
+        a next-generation Minecraft LifeSteal experience
+        where survival is only the beginning.
+
+        Build your empire, fight your rivals,
+        protect your hearts and become a legend.
+
+    </p>
+
+
+    <div class="actions">
+
+        <a
+            class="btn primary"
+            href="https://discord.gg/Q6EFJJ9aj"
+            target="_blank">
+
+            👑 JOIN GUDU MC
+
+        </a>
+
+
+        <a
+            class="btn secondary"
+            href="#play">
+
+            ⚔️ PLAY NOW
+
+        </a>
+
+    </div>
+
+
+    <div class="server-panel" id="play">
+
+        <div>
+
+            <div class="server-label">
+                MINECRAFT SERVER IP
+            </div>
+
+            <div class="server-ip">
+                gudumc.play.minekube.net
+            </div>
+
+        </div>
+
+        <button
+            class="copy"
+            onclick="copyIP()">
+
+            📋 COPY IP
+
+        </button>
+
+    </div>
+
+</div>
 
 </header>
 
 
-<!-- FEATURES -->
+<!-- =====================================================
+     FEATURES
+===================================================== -->
 
 <section id="features">
 
-    <div class="heading">
+    <div class="section-heading">
 
-        <small>THE GUDU EXPERIENCE</small>
+        <small>
+            THE GUDU EXPERIENCE
+        </small>
 
-        <h2>BUILT DIFFERENT.</h2>
+        <h2>
+            BUILT FOR SURVIVORS.
+        </h2>
 
         <p>
-            More than survival. It's your story.
+            Everything you need to create your own story.
         </p>
 
     </div>
 
+
     <div class="cards">
 
+
         <div class="card">
 
-            <div class="card-icon">❤️</div>
+            <div class="icon">
+                ❤️
+            </div>
 
-            <h3>LIFESTEAL</h3>
+            <h3>
+                LIFESTEAL
+            </h3>
 
             <p>
-                Every heart matters. Fight strategically,
-                survive dangerous encounters and protect
-                what you've earned.
+                Every heart matters.
+                Fight strategically, survive dangerous
+                encounters and protect what you've earned.
             </p>
 
         </div>
 
+
         <div class="card">
 
-            <div class="card-icon">⚔️</div>
+            <div class="icon">
+                ⚔️
+            </div>
 
-            <h3>INTENSE PVP</h3>
+            <h3>
+                EPIC PVP
+            </h3>
 
             <p>
-                Challenge other players, defend your territory
-                and prove yourself on the battlefield.
+                Challenge rivals, defend your territory
+                and prove yourself in intense Minecraft battles.
             </p>
 
         </div>
 
+
         <div class="card">
 
-            <div class="card-icon">👑</div>
+            <div class="icon">
+                👑
+            </div>
 
-            <h3>BUILD YOUR EMPIRE</h3>
+            <h3>
+                YOUR EMPIRE
+            </h3>
 
             <p>
-                Create your base, form alliances and turn
-                your vision into an unforgettable kingdom.
+                Build your base, create alliances,
+                dominate territories and create your legacy.
             </p>
 
         </div>
+
 
     </div>
 
 </section>
 
 
-<!-- STATS -->
+<!-- =====================================================
+     STATS
+===================================================== -->
 
 <section>
 
     <div class="stats">
 
         <div class="stat">
-            <h3>01</h3>
-            <p>LIFESTEAL WORLD</p>
+
+            <h3>
+                01
+            </h3>
+
+            <p>
+                LIFESTEAL WORLD
+            </p>
+
         </div>
 
-        <div class="stat">
-            <h3>∞</h3>
-            <p>POSSIBILITIES</p>
-        </div>
 
         <div class="stat">
-            <h3>24/7</h3>
-            <p>ADVENTURE</p>
+
+            <h3>
+                ∞
+            </h3>
+
+            <p>
+                POSSIBILITIES
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h3>
+                24/7
+            </h3>
+
+            <p>
+                ADVENTURE
+            </p>
+
         </div>
 
     </div>
@@ -816,32 +1373,41 @@ footer strong{
 </section>
 
 
-<!-- ABOUT -->
+<!-- =====================================================
+     ABOUT
+===================================================== -->
 
 <section id="about">
 
-    <div class="heading">
+    <div class="section-heading">
 
-        <small>WELCOME TO THE REALM</small>
+        <small>
+            THE WORLD OF GUDU
+        </small>
 
-        <h2>WHAT IS GUDU MC?</h2>
+        <h2>
+            MORE THAN SURVIVAL.
+        </h2>
 
     </div>
+
 
     <div class="about-box">
 
         <p>
 
-            <strong>GUDU MC</strong> is a Minecraft LifeSteal
-            server created for players who want more than
-            ordinary survival.
+            <strong>GUDU MC</strong>
+            is a Minecraft LifeSteal community
+            created for players who want competition,
+            survival and a community worth being part of.
 
             <br><br>
 
-            Build powerful bases. Create alliances.
-            Fight your rivals. Protect your hearts.
-            Rise from nothing and create a name that
-            the entire server remembers.
+            Start with nothing.
+            Build something powerful.
+            Make alliances.
+            Create enemies.
+            Protect your hearts.
 
             <br><br>
 
@@ -852,13 +1418,16 @@ footer strong{
 
         </p>
 
+
         <div class="actions">
 
             <a
                 class="btn primary"
                 href="https://discord.gg/Q6EFJJ9aj"
                 target="_blank">
-                💬 ENTER DISCORD
+
+                💬 JOIN DISCORD
+
             </a>
 
         </div>
@@ -868,33 +1437,47 @@ footer strong{
 </section>
 
 
-<!-- FINAL CTA -->
+<!-- =====================================================
+     FINAL CTA
+===================================================== -->
 
 <section>
 
-    <div class="heading">
+    <div class="section-heading">
 
-        <small>YOUR ADVENTURE STARTS NOW</small>
+        <small>
+            YOUR STORY STARTS HERE
+        </small>
 
-        <h2>READY TO SURVIVE?</h2>
+        <h2>
+            READY TO SURVIVE?
+        </h2>
 
         <p>
-            Connect to the server and make your mark.
+            Connect. Fight. Build. Dominate.
         </p>
 
     </div>
 
+
     <div class="actions">
 
-        <button class="btn primary" onclick="copyIP()">
+        <button
+            class="btn primary"
+            onclick="copyIP()">
+
             ⚔️ COPY SERVER IP
+
         </button>
+
 
         <a
             class="btn secondary"
             href="https://discord.gg/Q6EFJJ9aj"
             target="_blank">
+
             👑 JOIN DISCORD
+
         </a>
 
     </div>
@@ -902,9 +1485,15 @@ footer strong{
 </section>
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
-    <strong>GUDU MC</strong>
+    <strong>
+        GUDU MC
+    </strong>
 
     <br><br>
 
@@ -912,29 +1501,73 @@ footer strong{
 
     <br><br>
 
-    © 2026 GUDU MC. All rights reserved.
+    © 2026 GUDU MC • Minecraft LifeSteal Network
 
 </footer>
 
 
 <script>
 
-/* COPY SERVER IP */
+/* =====================================================
+   PARTICLES
+===================================================== */
+
+const background =
+    document.querySelector(".background");
+
+for(let i=0;i<75;i++){
+
+    const star =
+        document.createElement("div");
+
+    star.className="star";
+
+    star.style.left =
+        Math.random()*100+"%";
+
+    star.style.animationDuration =
+        (5+Math.random()*12)+"s";
+
+    star.style.animationDelay =
+        Math.random()*12+"s";
+
+    const size =
+        Math.random()*2+1;
+
+    star.style.width=size+"px";
+    star.style.height=size+"px";
+
+    background.appendChild(star);
+}
+
+
+/* =====================================================
+   COPY IP
+===================================================== */
 
 function copyIP(){
 
-    const ip = "gudumc.play.minekube.net";
+    const ip =
+        "gudumc.play.minekube.net";
 
-    navigator.clipboard.writeText(ip).then(() => {
+    navigator.clipboard.writeText(ip)
+    .then(()=>{
 
-        document.querySelectorAll(".copy").forEach(btn => {
+        document
+        .querySelectorAll(".copy")
+        .forEach(button=>{
 
-            const old = btn.innerText;
+            const old =
+                button.innerHTML;
 
-            btn.innerText = "✓ COPIED!";
+            button.innerHTML =
+                "✓ COPIED!";
 
-            setTimeout(() => {
-                btn.innerText = old;
+            setTimeout(()=>{
+
+                button.innerHTML =
+                    old;
+
             },2000);
 
         });
@@ -944,35 +1577,99 @@ function copyIP(){
 }
 
 
-/* FLOATING PARTICLES */
+/* =====================================================
+   MOUSE PARALLAX
+===================================================== */
 
-for(let i=0;i<45;i++){
+document.addEventListener(
+    "mousemove",
+    function(e){
 
-    const p = document.createElement("div");
+        const x =
+            (e.clientX /
+            window.innerWidth - .5);
 
-    p.className="particle";
-
-    p.style.left=Math.random()*100+"vw";
-
-    p.style.animationDuration=
-        (5+Math.random()*10)+"s";
-
-    p.style.animationDelay=
-        Math.random()*10+"s";
-
-    document.body.appendChild(p);
-}
+        const y =
+            (e.clientY /
+            window.innerHeight - .5);
 
 
-/* MOUSE PARALLAX */
+        const aurora =
+            document.querySelector(".aurora");
 
-document.addEventListener("mousemove",(e)=>{
+        const energy =
+            document.querySelector(".energy");
 
-    const x=(e.clientX/window.innerWidth-.5);
-    const y=(e.clientY/window.innerHeight-.5);
+        const core =
+            document.querySelector(".life-core");
 
-    document.querySelector(".core").style.transform=
-        `translate(${x*12}px,${y*12}px)`;
+
+        aurora.style.marginLeft =
+            x * 25 + "px";
+
+        aurora.style.marginTop =
+            y * 15 + "px";
+
+        energy.style.marginLeft =
+            x * -18 + "px";
+
+        energy.style.marginTop =
+            y * -12 + "px";
+
+        core.style.transform =
+            `translate(
+                ${x*10}px,
+                ${y*10}px
+            )`;
+
+    }
+);
+
+
+/* =====================================================
+   CARD TILT
+===================================================== */
+
+document
+.querySelectorAll(".card")
+.forEach(card=>{
+
+    card.addEventListener(
+        "mousemove",
+        function(e){
+
+            const rect =
+                card.getBoundingClientRect();
+
+            const x =
+                e.clientX - rect.left;
+
+            const y =
+                e.clientY - rect.top;
+
+            const rotateX =
+                ((y / rect.height)-.5)*-5;
+
+            const rotateY =
+                ((x / rect.width)-.5)*5;
+
+            card.style.transform =
+                `perspective(700px)
+                 translateY(-8px)
+                 rotateX(${rotateX}deg)
+                 rotateY(${rotateY}deg)`;
+
+        }
+    );
+
+    card.addEventListener(
+        "mouseleave",
+        function(){
+
+            card.style.transform="";
+
+        }
+    );
 
 });
 
@@ -980,4 +1677,4 @@ document.addEventListener("mousemove",(e)=>{
 
 </body>
 </html>
-
+```
