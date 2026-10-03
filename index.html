@@ -1,365 +1,630 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>GUDU MC — LifeSteal Minecraft Server</title>
+<title>GUDU MC — LifeSteal Network</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+:root{
+    --cyan:#00eaff;
+    --blue:#147cff;
+    --gold:#ffd66b;
+    --bg:#02050c;
+    --text:#f4fbff;
+    --muted:#8294aa;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
+html{
+    scroll-behavior:smooth;
+}
+
+body{
     background:
-        radial-gradient(circle at 50% 20%, rgba(0, 200, 255, 0.14), transparent 35%),
-        linear-gradient(135deg, #02050b, #06101d 50%, #010308);
-    color: white;
-    min-height: 100vh;
-    overflow-x: hidden;
+        radial-gradient(circle at 50% 10%,rgba(0,220,255,.12),transparent 28%),
+        radial-gradient(circle at 10% 70%,rgba(20,124,255,.08),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,sans-serif;
+    overflow-x:hidden;
 }
 
-/* Background Glow */
-body::before {
-    content: "";
-    position: fixed;
-    width: 500px;
-    height: 500px;
-    background: #00d9ff;
-    filter: blur(180px);
-    opacity: 0.08;
-    top: -150px;
-    left: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
+/* =========================
+   BACKGROUND
+========================= */
+
+.grid{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    background-image:
+        linear-gradient(rgba(0,234,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,234,255,.035) 1px,transparent 1px);
+    background-size:55px 55px;
+    mask-image:linear-gradient(to bottom,black,transparent 90%);
 }
 
-/* NAVBAR */
-
-nav {
-    width: 100%;
-    padding: 22px 7%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    z-index: 10;
+.glow{
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:var(--cyan);
+    filter:blur(180px);
+    opacity:.06;
+    pointer-events:none;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    color: #ffffff;
+.glow.one{
+    top:-300px;
+    left:20%;
 }
 
-.logo span {
-    color: #00d9ff;
+.glow.two{
+    right:-300px;
+    top:40%;
+    background:var(--blue);
 }
 
-.nav-discord {
-    text-decoration: none;
-    color: white;
-    border: 1px solid rgba(0,217,255,.4);
-    padding: 11px 20px;
-    border-radius: 10px;
-    background: rgba(0,217,255,.07);
-    transition: .3s;
+/* floating particles */
+
+.particle{
+    position:fixed;
+    width:3px;
+    height:3px;
+    background:var(--cyan);
+    border-radius:50%;
+    opacity:.5;
+    pointer-events:none;
+    z-index:-1;
+    animation:float linear infinite;
 }
 
-.nav-discord:hover {
-    background: #00d9ff;
-    color: #001018;
-    box-shadow: 0 0 25px rgba(0,217,255,.5);
+@keyframes float{
+    from{transform:translateY(105vh);opacity:0}
+    15%{opacity:.5}
+    85%{opacity:.5}
+    to{transform:translateY(-10vh);opacity:0}
 }
 
-/* HERO */
+/* =========================
+   NAV
+========================= */
 
-.hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 120px 20px 70px;
-    position: relative;
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:82px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    z-index:100;
+    background:rgba(2,5,12,.55);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.05);
 }
 
-.hero-content {
-    max-width: 900px;
-    z-index: 2;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:Orbitron;
+    font-weight:900;
+    letter-spacing:3px;
+    font-size:20px;
 }
 
-.badge {
-    display: inline-block;
-    padding: 9px 18px;
-    border: 1px solid rgba(0,217,255,.35);
-    background: rgba(0,217,255,.06);
-    border-radius: 100px;
-    color: #5ce7ff;
-    font-size: 13px;
-    letter-spacing: 2px;
-    margin-bottom: 25px;
-    box-shadow: 0 0 30px rgba(0,217,255,.08);
+.logo-mark{
+    width:38px;
+    height:38px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(0,234,255,.5);
+    border-radius:10px;
+    background:linear-gradient(145deg,rgba(0,234,255,.15),rgba(20,124,255,.04));
+    box-shadow:0 0 25px rgba(0,234,255,.12);
 }
 
-h1 {
-    font-size: clamp(70px, 13vw, 150px);
-    line-height: .85;
-    font-weight: 1000;
-    letter-spacing: -5px;
-    background: linear-gradient(180deg, #ffffff 10%, #63eaff 45%, #007cff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 35px rgba(0,217,255,.25));
+.logo span{
+    color:var(--cyan);
 }
 
-.mc {
-    font-size: 30px;
-    letter-spacing: 15px;
-    margin-top: 18px;
-    color: #dbefff;
+.navlinks{
+    display:flex;
+    gap:30px;
 }
 
-.hero p {
-    max-width: 680px;
-    margin: 28px auto;
-    color: #9fb1c4;
-    line-height: 1.8;
-    font-size: 17px;
+.navlinks a{
+    color:#8fa1b6;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.navlinks a:hover{
+    color:white;
+}
+
+.nav-discord{
+    padding:11px 18px;
+    border:1px solid rgba(0,234,255,.3);
+    border-radius:10px;
+    color:white;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:700;
+    background:rgba(0,234,255,.06);
+    transition:.3s;
+}
+
+.nav-discord:hover{
+    background:var(--cyan);
+    color:#001016;
+    box-shadow:0 0 30px rgba(0,234,255,.35);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:130px 7% 80px;
+    text-align:center;
+}
+
+.hero-content{
+    max-width:1000px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 15px;
+    border:1px solid rgba(0,234,255,.2);
+    background:rgba(0,234,255,.045);
+    border-radius:100px;
+    color:#80f3ff;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2px;
+    margin-bottom:30px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    background:#48ffae;
+    border-radius:50%;
+    box-shadow:0 0 12px #48ffae;
+}
+
+.title{
+    font-family:Orbitron;
+    font-size:clamp(70px,14vw,170px);
+    font-weight:900;
+    line-height:.8;
+    letter-spacing:-8px;
+    background:linear-gradient(
+        180deg,
+        #fff 0%,
+        #a9f7ff 35%,
+        #00d9ff 65%,
+        #0068e8 100%
+    );
+    -webkit-background-clip:text;
+    color:transparent;
+    filter:
+        drop-shadow(0 0 20px rgba(0,234,255,.2))
+        drop-shadow(0 25px 30px rgba(0,0,0,.7));
+}
+
+.mc{
+    font-family:Orbitron;
+    margin-top:28px;
+    font-size:19px;
+    font-weight:700;
+    letter-spacing:14px;
+    color:var(--gold);
+    text-shadow:0 0 20px rgba(255,214,107,.25);
+}
+
+.hero-description{
+    max-width:650px;
+    margin:35px auto 0;
+    color:#8ea1b6;
+    line-height:1.9;
+    font-size:16px;
+}
+
+.hero-description strong{
+    color:#dffbff;
+}
+
+/* CORE */
+
+.core{
+    width:180px;
+    height:180px;
+    margin:55px auto 20px;
+    position:relative;
+    display:grid;
+    place-items:center;
+}
+
+.core-ring{
+    position:absolute;
+    inset:0;
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:50%;
+    animation:spin 12s linear infinite;
+}
+
+.core-ring:before,
+.core-ring:after{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:8px;
+    background:var(--cyan);
+    box-shadow:0 0 18px var(--cyan);
+    border-radius:50%;
+}
+
+.core-ring:before{
+    top:0;
+    left:50%;
+}
+
+.core-ring:after{
+    bottom:12px;
+    right:4px;
+}
+
+.core-ring.two{
+    inset:18px;
+    border-color:rgba(255,214,107,.25);
+    animation:spinReverse 8s linear infinite;
+}
+
+.heart{
+    font-size:65px;
+    filter:drop-shadow(0 0 25px rgba(255,40,80,.5));
+    animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+@keyframes spinReverse{
+    to{transform:rotate(-360deg)}
+}
+
+@keyframes pulse{
+    50%{transform:scale(1.12)}
 }
 
 /* BUTTONS */
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-top: 30px;
+.actions{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:30px;
 }
 
-.btn {
-    padding: 15px 25px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 800;
-    transition: .3s;
-    cursor: pointer;
-    border: none;
-    font-size: 15px;
+.btn{
+    padding:15px 25px;
+    border-radius:12px;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:800;
+    transition:.3s;
+    cursor:pointer;
 }
 
-.primary {
-    background: linear-gradient(135deg, #00eaff, #007cff);
-    color: #001018;
-    box-shadow: 0 0 30px rgba(0,217,255,.25);
+.primary{
+    color:#001018;
+    background:linear-gradient(135deg,#5cf5ff,#007cff);
+    box-shadow:0 0 30px rgba(0,234,255,.2);
 }
 
-.primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 45px rgba(0,217,255,.55);
+.primary:hover{
+    transform:translateY(-4px);
+    box-shadow:0 0 45px rgba(0,234,255,.45);
 }
 
-.secondary {
-    color: white;
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.04);
+.secondary{
+    color:white;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.035);
 }
 
-.secondary:hover {
-    background: rgba(255,255,255,.1);
-    transform: translateY(-3px);
+.secondary:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,234,255,.3);
 }
 
-/* SERVER CARD */
+/* =========================
+   SERVER PANEL
+========================= */
 
-.server-card {
-    margin: 45px auto 0;
-    max-width: 650px;
-    padding: 20px;
-    border-radius: 18px;
-    border: 1px solid rgba(0,217,255,.18);
-    background: rgba(255,255,255,.035);
-    backdrop-filter: blur(15px);
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+.server-panel{
+    max-width:850px;
+    margin:35px auto 0;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:20px;
+    padding:20px 22px;
+    border:1px solid rgba(255,255,255,.08);
+    background:linear-gradient(
+        120deg,
+        rgba(255,255,255,.06),
+        rgba(255,255,255,.015)
+    );
+    border-radius:16px;
+    backdrop-filter:blur(20px);
+    text-align:left;
 }
 
-.server-status {
-    color: #53ffae;
-    font-size: 13px;
-    margin-bottom: 10px;
+.server-label{
+    color:#63768b;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:2px;
+    margin-bottom:8px;
 }
 
-.ip {
-    font-family: monospace;
-    font-size: 19px;
-    color: #ffffff;
-    letter-spacing: 1px;
-    word-break: break-all;
+.server-ip{
+    font-family:monospace;
+    font-size:16px;
+    color:#dffbff;
 }
 
-.copy-btn {
-    margin-top: 14px;
-    padding: 9px 17px;
-    border-radius: 8px;
-    border: 1px solid rgba(0,217,255,.25);
-    background: rgba(0,217,255,.08);
-    color: #5ce7ff;
-    cursor: pointer;
+.copy{
+    border:1px solid rgba(0,234,255,.25);
+    background:rgba(0,234,255,.07);
+    color:var(--cyan);
+    padding:11px 17px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:700;
 }
 
-.copy-btn:hover {
-    background: #00d9ff;
-    color: #001018;
+.copy:hover{
+    background:var(--cyan);
+    color:#001018;
 }
 
-/* SECTION */
+/* =========================
+   SECTIONS
+========================= */
 
-section {
-    padding: 100px 7%;
-    max-width: 1200px;
-    margin: auto;
+section{
+    max-width:1150px;
+    margin:auto;
+    padding:110px 7%;
 }
 
-.section-title {
-    text-align: center;
-    font-size: 42px;
-    margin-bottom: 15px;
+.heading{
+    text-align:center;
+    margin-bottom:55px;
 }
 
-.section-subtitle {
-    text-align: center;
-    color: #8193a8;
-    margin-bottom: 50px;
+.heading small{
+    color:var(--cyan);
+    font-size:11px;
+    letter-spacing:3px;
+    font-weight:800;
+}
+
+.heading h2{
+    margin-top:13px;
+    font-family:Orbitron;
+    font-size:clamp(30px,5vw,50px);
+}
+
+.heading p{
+    color:#73869b;
+    margin-top:15px;
 }
 
 /* CARDS */
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
 }
 
-.card {
-    padding: 30px;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: linear-gradient(
-        145deg,
-        rgba(255,255,255,.055),
-        rgba(255,255,255,.015)
-    );
-    transition: .3s;
+.card{
+    position:relative;
+    padding:32px;
+    min-height:230px;
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:20px;
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+    overflow:hidden;
+    transition:.35s;
 }
 
-.card:hover {
-    transform: translateY(-7px);
-    border-color: rgba(0,217,255,.35);
-    box-shadow: 0 20px 50px rgba(0,217,255,.08);
+.card:before{
+    content:"";
+    position:absolute;
+    width:120px;
+    height:120px;
+    right:-60px;
+    top:-60px;
+    background:var(--cyan);
+    filter:blur(70px);
+    opacity:.08;
 }
 
-.icon {
-    font-size: 35px;
-    margin-bottom: 18px;
+.card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(0,234,255,.25);
+    box-shadow:0 25px 60px rgba(0,0,0,.3);
 }
 
-.card h3 {
-    margin-bottom: 10px;
-    font-size: 21px;
+.card-icon{
+    font-size:32px;
+    margin-bottom:25px;
 }
 
-.card p {
-    color: #8fa1b5;
-    line-height: 1.7;
+.card h3{
+    font-family:Orbitron;
+    font-size:17px;
+    margin-bottom:13px;
 }
 
-/* ABOUT */
-
-.about {
-    text-align: center;
-    max-width: 800px;
+.card p{
+    color:#7f91a5;
+    line-height:1.7;
+    font-size:14px;
 }
 
-.about p {
-    color: #9aabba;
-    line-height: 1.9;
-    font-size: 17px;
+/* =========================
+   ABOUT
+========================= */
+
+.about-box{
+    padding:50px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(0,234,255,.08),transparent 45%),
+        rgba(255,255,255,.025);
+    text-align:center;
 }
 
-/* FOOTER */
-
-footer {
-    border-top: 1px solid rgba(255,255,255,.07);
-    padding: 35px 20px;
-    text-align: center;
-    color: #637589;
+.about-box p{
+    max-width:750px;
+    margin:auto;
+    color:#91a2b6;
+    line-height:2;
+    font-size:15px;
 }
 
-footer strong {
-    color: #5ce7ff;
+.about-box strong{
+    color:white;
 }
 
-/* PARTICLES */
+/* =========================
+   STATS
+========================= */
 
-.particle {
-    position: fixed;
-    width: 3px;
-    height: 3px;
-    background: #00d9ff;
-    border-radius: 50%;
-    opacity: .4;
-    animation: float 8s infinite linear;
-    pointer-events: none;
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    overflow:hidden;
+    background:rgba(255,255,255,.025);
 }
 
-@keyframes float {
-    from {
-        transform: translateY(100vh);
+.stat{
+    padding:30px;
+    text-align:center;
+    border-right:1px solid rgba(255,255,255,.07);
+}
+
+.stat:last-child{
+    border-right:0;
+}
+
+.stat h3{
+    font-family:Orbitron;
+    font-size:28px;
+    color:var(--cyan);
+}
+
+.stat p{
+    margin-top:8px;
+    color:#718399;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    padding:45px 20px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.06);
+    color:#52657a;
+    font-size:12px;
+}
+
+footer strong{
+    color:#8fefff;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:800px){
+
+    nav{
+        padding:0 5%;
     }
-    to {
-        transform: translateY(-10vh);
-    }
-}
 
-/* MOBILE */
-
-@media(max-width: 800px) {
-    .cards {
-        grid-template-columns: 1fr;
+    .navlinks{
+        display:none;
     }
 
-    nav {
-        padding: 18px 5%;
+    .title{
+        letter-spacing:-5px;
     }
 
-    .nav-discord {
-        padding: 9px 13px;
-        font-size: 13px;
+    .cards{
+        grid-template-columns:1fr;
     }
 
-    h1 {
-        letter-spacing: -3px;
+    .stats{
+        grid-template-columns:1fr;
     }
 
-    .mc {
-        font-size: 20px;
-        letter-spacing: 9px;
+    .stat{
+        border-right:0;
+        border-bottom:1px solid rgba(255,255,255,.07);
     }
 
-    section {
-        padding: 75px 6%;
+    .stat:last-child{
+        border-bottom:0;
+    }
+
+    .server-panel{
+        grid-template-columns:1fr;
+        text-align:center;
+    }
+
+    .about-box{
+        padding:30px 20px;
     }
 }
 </style>
@@ -367,16 +632,32 @@ footer strong {
 
 <body>
 
+<div class="grid"></div>
+<div class="glow one"></div>
+<div class="glow two"></div>
+
 <nav>
-    <div class="logo">GUDU<span>MC</span></div>
+
+    <div class="logo">
+        <div class="logo-mark">G</div>
+        GUDU<span>MC</span>
+    </div>
+
+    <div class="navlinks">
+        <a href="#features">FEATURES</a>
+        <a href="#about">ABOUT</a>
+        <a href="#play">PLAY</a>
+    </div>
 
     <a
         class="nav-discord"
         href="https://discord.gg/Q6EFJJ9aj"
         target="_blank">
-        💬 Discord
+        💬 DISCORD
     </a>
+
 </nav>
+
 
 <!-- HERO -->
 
@@ -384,49 +665,59 @@ footer strong {
 
     <div class="hero-content">
 
-        <div class="badge">
-            ⚡ OFFICIAL GUDU MC NETWORK
+        <div class="status">
+            <span class="status-dot"></span>
+            LIFESTEAL NETWORK • ONLINE
         </div>
 
-        <h1>GUDU</h1>
+        <div class="title">GUDU</div>
 
         <div class="mc">M C</div>
 
-        <p>
-            Enter a new era of Minecraft LifeSteal.
-            Build your empire, fight for survival, protect your hearts
-            and create your own legacy in the world of <strong>GUDU MC</strong>.
+        <div class="core">
+            <div class="core-ring"></div>
+            <div class="core-ring two"></div>
+            <div class="heart">❤️</div>
+        </div>
+
+        <p class="hero-description">
+            <strong>Survival has a price.</strong><br>
+            Enter the world of GUDU MC — an intense LifeSteal
+            experience where every heart matters, every fight
+            has consequences and every player can build their legacy.
         </p>
 
-        <div class="buttons">
+        <div class="actions">
 
             <a
                 class="btn primary"
                 href="https://discord.gg/Q6EFJJ9aj"
                 target="_blank">
-                💬 JOIN DISCORD
+                👑 JOIN THE COMMUNITY
             </a>
 
-            <button
+            <a
                 class="btn secondary"
-                onclick="copyIP()">
-                📋 COPY SERVER IP
-            </button>
+                href="#play">
+                ⚔️ PLAY GUDU MC
+            </a>
 
         </div>
 
-        <div class="server-card">
+        <div class="server-panel" id="play">
 
-            <div class="server-status">
-                ● SERVER IP
+            <div>
+                <div class="server-label">
+                    MINECRAFT SERVER IP
+                </div>
+
+                <div class="server-ip">
+                    gudumc.play.minekube.net
+                </div>
             </div>
 
-            <div class="ip">
-                gudumc.play.minekube.net
-            </div>
-
-            <button class="copy-btn" onclick="copyIP()">
-                Copy IP
+            <button class="copy" onclick="copyIP()">
+                📋 COPY IP
             </button>
 
         </div>
@@ -438,43 +729,86 @@ footer strong {
 
 <!-- FEATURES -->
 
-<section>
+<section id="features">
 
-    <h2 class="section-title">
-        ⚔️ ENTER THE LIFESTEAL
-    </h2>
+    <div class="heading">
 
-    <p class="section-subtitle">
-        Survival isn't guaranteed. Your choices matter.
-    </p>
+        <small>THE GUDU EXPERIENCE</small>
+
+        <h2>BUILT DIFFERENT.</h2>
+
+        <p>
+            More than survival. It's your story.
+        </p>
+
+    </div>
 
     <div class="cards">
 
         <div class="card">
-            <div class="icon">❤️</div>
-            <h3>LifeSteal Survival</h3>
+
+            <div class="card-icon">❤️</div>
+
+            <h3>LIFESTEAL</h3>
+
             <p>
-                Fight, survive and protect your hearts.
-                Every battle can change your destiny.
+                Every heart matters. Fight strategically,
+                survive dangerous encounters and protect
+                what you've earned.
             </p>
+
         </div>
 
         <div class="card">
-            <div class="icon">⚔️</div>
-            <h3>Epic PvP</h3>
+
+            <div class="card-icon">⚔️</div>
+
+            <h3>INTENSE PVP</h3>
+
             <p>
-                Challenge rivals, build your reputation
-                and become a force on the server.
+                Challenge other players, defend your territory
+                and prove yourself on the battlefield.
             </p>
+
         </div>
 
         <div class="card">
-            <div class="icon">👑</div>
-            <h3>Build Your Legacy</h3>
+
+            <div class="card-icon">👑</div>
+
+            <h3>BUILD YOUR EMPIRE</h3>
+
             <p>
-                Create your base, form alliances and
-                build an empire worthy of the GUDU name.
+                Create your base, form alliances and turn
+                your vision into an unforgettable kingdom.
             </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section>
+
+    <div class="stats">
+
+        <div class="stat">
+            <h3>01</h3>
+            <p>LIFESTEAL WORLD</p>
+        </div>
+
+        <div class="stat">
+            <h3>∞</h3>
+            <p>POSSIBILITIES</p>
+        </div>
+
+        <div class="stat">
+            <h3>24/7</h3>
+            <p>ADVENTURE</p>
         </div>
 
     </div>
@@ -484,33 +818,47 @@ footer strong {
 
 <!-- ABOUT -->
 
-<section>
+<section id="about">
 
-    <div class="about">
+    <div class="heading">
 
-        <h2 class="section-title">
-            👑 WHAT IS GUDU MC?
-        </h2>
+        <small>WELCOME TO THE REALM</small>
+
+        <h2>WHAT IS GUDU MC?</h2>
+
+    </div>
+
+    <div class="about-box">
 
         <p>
-            <strong>GUDU MC</strong> is a Minecraft LifeSteal community
-            built for players who want intense PvP, survival,
-            competition and an active community.
+
+            <strong>GUDU MC</strong> is a Minecraft LifeSteal
+            server created for players who want more than
+            ordinary survival.
+
             <br><br>
-            Whether you're here to dominate the battlefield,
-            build an unstoppable base or simply enjoy Minecraft
-            with friends — your adventure starts here.
+
+            Build powerful bases. Create alliances.
+            Fight your rivals. Protect your hearts.
+            Rise from nothing and create a name that
+            the entire server remembers.
+
             <br><br>
-            <strong>Join the community. Enter the realm. Make your mark.</strong>
+
+            <strong>
+                Your hearts are limited.
+                Your ambition isn't.
+            </strong>
+
         </p>
 
-        <div class="buttons">
+        <div class="actions">
 
             <a
                 class="btn primary"
                 href="https://discord.gg/Q6EFJJ9aj"
                 target="_blank">
-                👑 JOIN GUDU MC
+                💬 ENTER DISCORD
             </a>
 
         </div>
@@ -520,64 +868,116 @@ footer strong {
 </section>
 
 
+<!-- FINAL CTA -->
+
+<section>
+
+    <div class="heading">
+
+        <small>YOUR ADVENTURE STARTS NOW</small>
+
+        <h2>READY TO SURVIVE?</h2>
+
+        <p>
+            Connect to the server and make your mark.
+        </p>
+
+    </div>
+
+    <div class="actions">
+
+        <button class="btn primary" onclick="copyIP()">
+            ⚔️ COPY SERVER IP
+        </button>
+
+        <a
+            class="btn secondary"
+            href="https://discord.gg/Q6EFJJ9aj"
+            target="_blank">
+            👑 JOIN DISCORD
+        </a>
+
+    </div>
+
+</section>
+
+
 <footer>
 
-    <p>
-        © 2026 <strong>GUDU MC</strong> — LifeSteal Minecraft Server
-    </p>
+    <strong>GUDU MC</strong>
 
-    <p style="margin-top:8px;">
-        Build • Fight • Survive • Dominate
-    </p>
+    <br><br>
+
+    BUILD • FIGHT • SURVIVE • DOMINATE
+
+    <br><br>
+
+    © 2026 GUDU MC. All rights reserved.
 
 </footer>
 
 
 <script>
 
-function copyIP() {
+/* COPY SERVER IP */
+
+function copyIP(){
 
     const ip = "gudumc.play.minekube.net";
 
-    navigator.clipboard.writeText(ip);
+    navigator.clipboard.writeText(ip).then(() => {
 
-    const buttons = document.querySelectorAll(".copy-btn");
+        document.querySelectorAll(".copy").forEach(btn => {
 
-    buttons.forEach(button => {
-        button.innerText = "✓ IP COPIED!";
-    });
+            const old = btn.innerText;
 
-    setTimeout(() => {
+            btn.innerText = "✓ COPIED!";
 
-        buttons.forEach(button => {
-            button.innerText = "Copy IP";
+            setTimeout(() => {
+                btn.innerText = old;
+            },2000);
+
         });
 
-    }, 2000);
+    });
+
 }
 
 
-/* Create floating particles */
+/* FLOATING PARTICLES */
 
-for(let i = 0; i < 35; i++) {
+for(let i=0;i<45;i++){
 
-    const particle = document.createElement("div");
+    const p = document.createElement("div");
 
-    particle.className = "particle";
+    p.className="particle";
 
-    particle.style.left = Math.random() * 100 + "vw";
+    p.style.left=Math.random()*100+"vw";
 
-    particle.style.animationDuration =
-        (5 + Math.random() * 8) + "s";
+    p.style.animationDuration=
+        (5+Math.random()*10)+"s";
 
-    particle.style.animationDelay =
-        Math.random() * 8 + "s";
+    p.style.animationDelay=
+        Math.random()*10+"s";
 
-    document.body.appendChild(particle);
+    document.body.appendChild(p);
 }
+
+
+/* MOUSE PARALLAX */
+
+document.addEventListener("mousemove",(e)=>{
+
+    const x=(e.clientX/window.innerWidth-.5);
+    const y=(e.clientY/window.innerHeight-.5);
+
+    document.querySelector(".core").style.transform=
+        `translate(${x*12}px,${y*12}px)`;
+
+});
 
 </script>
 
 </body>
 </html>
-```
+
